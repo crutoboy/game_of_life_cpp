@@ -1,41 +1,36 @@
-﻿
-/*
-int main() {
-    int width, height;
-    while (true) {
-        getConsoleSize(width, height);
-        std::cout << "Ширина: " << width << ", Высота: " << height << std::endl;
-    } 
-    return 0;
-}
-*/
-
-
-
+﻿#include <iostream>
+#include <string>
 #include <windows.h>
 #include "Console.h"
 
+using namespace std;
 
-/*int main() {
-    // Записываем символ 'X' в позицию (5, 5) с зелёным цветом
-    writeCharAt(5, 5, 'X', FOREGROUND_GREEN);
+Console console;
 
-    // Читаем символ из позиции (5, 5)
-    char ch = readCharAt(5, 5);
-    std::cout << "Символ в (5, 5): " << ch << std::endl;
-
-    // Перемещаем курсор в конец, чтобы видеть вывод
-    setCursorPosition(0, 10);
-    return 0;
+void center_print(string text, int percent_height) {
+    int width, height;
+    console.getConsoleSize(width, height);
+    int indentX = (width - text.length()) / 2;
+    int indentY = height * ((float)percent_height / 100.0);
+    console.setCursorPosition(0, 0);
+    for (int i = 0; i < indentY; i++) {
+        cout << endl;
+    }
+    for (int i = 0; i < indentX; i++) {
+        cout << " ";
+    }
+    cout << text;
 }
-*/
+
 
 int main() {
-    Console console;
-    int x, y;
+    setlocale(LC_ALL, "RU");
+
+    center_print("Добро пожаловать в игру \"Жизнь\"", 50);
+    center_print("Чтобы начать игру нажмите enter", 75);
+
+
     while (true) {
-        console.getConsoleSize(x, y);
-        console.clearConsole();
-        console.writeCharAt(x-1, y-1, 'X', FOREGROUND_GREEN);
+        
     }
 }

@@ -51,11 +51,11 @@ void Console::enableConsoleClickableMode() {
     SetConsoleMode(consoleHandler, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
 }
 
-void Console::updateConsoleEvents() {
-    INPUT_RECORD input_record;
+void Console::updateConsoleEvents(INPUT_RECORD& input_record) {
     DWORD cNumRead;
 
     ReadConsoleInput(consoleHandler, &input_record, 1, &cNumRead);
+    /*
     if (input_record.EventType == MOUSE_EVENT) {
         MOUSE_EVENT_RECORD mer = input_record.Event.MouseEvent;
         printf("Мышь: x=%d, y=%d, кнопка=%d\n",
@@ -64,6 +64,7 @@ void Console::updateConsoleEvents() {
     else if (input_record.EventType == KEY_EVENT && input_record.Event.KeyEvent.bKeyDown) {
         if (input_record.Event.KeyEvent.wVirtualKeyCode == VK_ESCAPE) break;
     }
+    */
 }
 
 void Console::disableConsoleClickableMode() {
