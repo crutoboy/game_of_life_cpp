@@ -43,3 +43,32 @@ void Console::clearConsole() {
     FillConsoleOutputAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE, consoleSize, topLeft, &written);
     SetConsoleCursorPosition(hConsole, topLeft);
 }
+
+void Console::enableConsoleClickableMode() {
+    consoleHandler = GetStdHandle(STD_INPUT_HANDLE);
+    
+    GetConsoleMode(consoleHandler, &consolePrevMode);
+    SetConsoleMode(consoleHandler, ENABLE_EXTENDED_FLAGS | ENABLE_WINDOW_INPUT | ENABLE_MOUSE_INPUT);
+}
+
+void Console::updateConsoleEvents() {
+    INPUT_RECORD input_record;
+    DWORD cNumRead;
+
+    ReadConsoleInput(consoleHandler, &input_record, 1, &cNumRead);
+    if (input_record.EventType == MOUSE_EVENT) {
+        MOUSE_EVENT_RECORD mer = input_record.Event.MouseEvent;
+        printf("Мышь: x=%d, y=%d, кнопка=%d\n",
+            mer.dwMousePosition.X, mer.dwMousePosition.Y, mer.dwButtonState);
+    }
+    else if (input_record.EventType == KEY_EVENT && input_record.Event.KeyEvent.bKeyDown) {
+        if (input_record.Event.KeyEvent.wVirtualKeyCode == VK_ESCAPE) break;
+    }
+}
+
+void Console::disableConsoleClickableMode() {
+    SetConsoleMode(consoleHandler, consolePrevMode);
+}
+
+
+//  SetConsoleMode(hInput, prev_mode);
