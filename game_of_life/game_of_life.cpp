@@ -157,5 +157,6 @@ int main() {
         cells = new_cells;
         console.setCursorPosition(16, height - 1);
         cout << ++count;
+        Sleep(100);
     }
 }
