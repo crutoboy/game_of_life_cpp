@@ -20,7 +20,7 @@ void Console::writeCharAt(int x, int y, char ch, WORD color) {
     charInfo.Attributes = color;
     COORD pos = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
     SMALL_RECT region = { pos.X, pos.Y, pos.X, pos.Y };
-    WriteConsoleOutputA(GetStdHandle(STD_OUTPUT_HANDLE), &charInfo, { 1, 1 }, { 0, 0 }, &region); // Исправлено: region вместо ®ion
+    WriteConsoleOutputA(GetStdHandle(STD_OUTPUT_HANDLE), &charInfo, { 1, 1 }, { 0, 0 }, &region); 
 }
 
 char Console::readCharAt(int x, int y) {
@@ -28,7 +28,7 @@ char Console::readCharAt(int x, int y) {
     COORD size = { 1, 1 };
     COORD coord = { 0, 0 };
     SMALL_RECT region = { static_cast<SHORT>(x), static_cast<SHORT>(y), static_cast<SHORT>(x), static_cast<SHORT>(y) };
-    ReadConsoleOutputA(GetStdHandle(STD_OUTPUT_HANDLE), &buffer, size, coord, &region); // Исправлено: region вместо ®ion
+    ReadConsoleOutputA(GetStdHandle(STD_OUTPUT_HANDLE), &buffer, size, coord, &region);
     return buffer.Char.AsciiChar;
 }
 
@@ -55,21 +55,8 @@ void Console::updateConsoleEvents(INPUT_RECORD& input_record) {
     DWORD cNumRead;
 
     ReadConsoleInput(consoleHandler, &input_record, 1, &cNumRead);
-    /*
-    if (input_record.EventType == MOUSE_EVENT) {
-        MOUSE_EVENT_RECORD mer = input_record.Event.MouseEvent;
-        printf("Мышь: x=%d, y=%d, кнопка=%d\n",
-            mer.dwMousePosition.X, mer.dwMousePosition.Y, mer.dwButtonState);
-    }
-    else if (input_record.EventType == KEY_EVENT && input_record.Event.KeyEvent.bKeyDown) {
-        if (input_record.Event.KeyEvent.wVirtualKeyCode == VK_ESCAPE) break;
-    }
-    */
 }
 
 void Console::disableConsoleClickableMode() {
     SetConsoleMode(consoleHandler, consolePrevMode);
 }
-
-
-//  SetConsoleMode(hInput, prev_mode);
